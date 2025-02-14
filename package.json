@@ -1,15 +1,17 @@
 {
-  "name": "superadaptix-gantt-nodejs",
-  "version": "1.0.0",
+  "name": "dhx-gantt-app",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.21.2"
-  }
+  "license": "MIT"
 }
