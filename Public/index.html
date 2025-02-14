@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+<link href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" rel="stylesheet">
+
+<style type="text/css">
+  html,body {
+    height: 100%;
+    margin: 2em;
+    padding: 0px;
+    background-color: #f0f0f0;
+    overflow: hidden;
+  }
+</style>
+
+  <head>
+    <title>My First Web Page</title>
+  </head>
+
+  <body>
+    <div id="gantt_here" style='width:100%; height:100%;'></div>
+    <script type="text/javascript">
+      document.write("Hello, World!");
+
+      const testData = {
+  data: [
+    { id: 5, text: "Advanced JavaScript", start_date: "24-02-2025", duration: 5, owner: "Alice Smith", instructor: "Alice Smith" },
+    { id: 6, text: "Introduction to Machine Learning", start_date: "26-02-2025", duration: 10, owner: "Bob Johnson", instructor: "Bob Johnson" },
+    { id: 7, text: "Data Science with Python", start_date: "07-02-2025", duration: 8, owner: "Carol Williams", instructor: "Carol Williams" },
+    { id: 8, text: "Full Stack Web Development", start_date: "15-02-2025", duration: 12, owner: "Alice Smith", instructor: "Alice Smith" },
+    { id: 9, text: "Cloud Computing Essentials", start_date: "01-03-2025", duration: 20, owner: "Alice Smith", instructor: "Alice Smith" },
+    { id: 10, text: "Cybersecurity Fundamentals", start_date: "10-02-2025", duration: 7, owner: "Frank Miller", instructor: "Frank Miller" },
+    { id: 11, text: "Mobile App Development", start_date: "20-02-2025", duration: 15, owner: "Grace Wilson", instructor: "Grace Wilson" },
+    { id: 12, text: "Artificial Intelligence Basics", start_date: "07-02-2025", duration: 10, owner: "Hank Moore", instructor: "Hank Moore" },
+    { id: 13, text: "Blockchain Technology", start_date: "19-02-2025", duration: 12, owner: "Ivy Taylor", instructor: "Ivy Taylor" },
+    { id: 14, text: "DevOps Practices", start_date: "20-03-2025", duration: 22, owner: "Jack Anderson", instructor: "Jack Anderson" },
+    { id: 15, text: "Game Development with Unity", start_date: "06-02-2025", duration: 14, owner: "Karen Thomas", instructor: "Karen Thomas" },
+    { id: 16, text: "Big Data Analytics", start_date: "10-01-2025", duration: 14, owner: "Leo Jackson", instructor: "Leo Jackson" },
+    { id: 17, text: "Internet of Things (IoT)", start_date: "20-01-2025", duration: 16, owner: "Mia White", instructor: "Mia White" },
+    { id: 18, text: "Software Testing and QA", start_date: "01-01-2025", duration: 10, owner: "Nina Harris", instructor: "Nina Harris" },
+    { id: 19, text: "Digital Marketing Strategies", start_date: "10-01-2025", duration: 20, owner: "Oscar Martin", instructor: "Oscar Martin" },
+    { id: 20, text: "UX/UI Design Principles", start_date: "20-01-2025", duration: 15, owner: "Paula Thompson", instructor: "Paula Thompson" },
+    { id: 21, text: "Agile Project Management", start_date: "01-02-2025", duration: 12, owner: "Quinn Garcia", instructor: "Quinn Garcia" },
+    { id: 22, text: "Deep Learning with TensorFlow", start_date: "10-02-2025", duration: 18, owner: "Rita Martinez", instructor: "Rita Martinez" },
+    { id: 23, text: "Network Security", start_date: "20-02-2025", duration: 22, owner: "Sam Robinson", instructor: "Sam Robinson" },
+    { id: 24, text: "Database Management Systems", start_date: "01-03-2025", duration: 25, owner: "Tina Clark", instructor: "Tina Clark" },
+    { id: 25, text: "Ethical Hacking", start_date: "10-03-2025", duration: 20, owner: "Uma Lewis", instructor: "Uma Lewis" },
+    { id: 26, text: "React Native Development", start_date: "20-03-2025", duration: 15, owner: "Victor Lee", instructor: "Victor Lee" },
+    { id: 27, text: "Virtual Reality Development", start_date: "01-01-2025", duration: 30, owner: "Wendy Walker", instructor: "Wendy Walker" },
+    { id: 28, text: "Robotics Programming", start_date: "10-01-2025", duration: 18, owner: "Xander Hall", instructor: "Xander Hall" },
+    { id: 29, text: "Natural Language Processing", start_date: "20-01-2025", duration: 22, owner: "Yara Young", instructor: "Yara Young" },
+    { id: 30, text: "Quantum Computing Fundamentals", start_date: "01-02-2025", duration: 7, owner: "Hank Moore", instructor: "Hank Moore" },
+  ],
+};
+
+      gantt.init("gantt_here");
+      gantt.parse(testData);
+    </script>
+  </body>
