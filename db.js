@@ -27,3 +27,5 @@ const getCoursesWithInstructors = () => {
 
 // Call the function
 getCoursesWithInstructors();
+
+module.exports = connection;
