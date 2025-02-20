@@ -10,7 +10,7 @@ if (!PORT || !DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
 }
 
 const app = express();
-const port = PORT || 3000;
+const port = PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -31,7 +31,16 @@ db.connect((err) => {
 
 // 📌 Define API route for fetching Gantt chart data
 app.get("/api/gantt-data", (req, res) => {
-  const sql = "SELECT id, course_id, instructor_id, start_date, duration FROM assignments";
+  const sql = `
+    SELECT 
+      courses.name AS Course, 
+      instructors.name AS Instructor, 
+      assignments.start_date, 
+      assignments.duration 
+    FROM assignments
+    JOIN courses ON assignments.course_id = courses.id
+    JOIN instructors ON assignments.instructor_id = instructors.id;
+  `;
   
   db.query(sql, (err, results) => {
     if (err) {
