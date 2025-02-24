@@ -1,56 +1,77 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
 const { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+const db = require("./db");
+const coursesRoutes = require("./routes/courses");
+const instructorsRoutes = require("./routes/instructors");
+const assignmentsRoutes = require("./routes/assignments");
+const app = express();
 
 if (!PORT || !DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
-  console.error("Missing required environment variables. Please check your .env file.");
+  console.error(
+    "Missing required environment variables. Please check your .env file."
+  );
   process.exit(1);
 }
 
-const app = express();
-const port = PORT;
-
 app.use(cors());
 app.use(express.json());
+app.use("/api/courses", coursesRoutes);
+app.use("/api/instructors", instructorsRoutes);
+app.use("/api/assignments", assignmentsRoutes);
 
-const db = mysql.createConnection({
-  host: DB_HOST,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-});
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-    return;
-  }
-  console.log("Connected to MySQL database!");
-});
-
-// 📌 Define API route for fetching Gantt chart data
-app.get("/api/gantt-data", (req, res) => {
-  const sql = `
+const fetchGanttData = async () => {
+  const [rows] = await db.query(`
     SELECT 
-      courses.name AS Course, 
-      instructors.name AS Instructor, 
-      assignments.start_date, 
-      assignments.duration 
-    FROM assignments
-    JOIN courses ON assignments.course_id = courses.id
-    JOIN instructors ON assignments.instructor_id = instructors.id;
-  `;
-  
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Error fetching Gantt data:", err);
-      return res.status(500).json({ error: "Database query failed", details: err });
+      c.id AS course_id, 
+      c.name AS course_name, 
+      i.id AS instructor_id, 
+      i.name AS instructor_name, 
+      a.start_date, 
+      a.end_date, 
+      DATEDIFF(a.end_date, a.start_date) AS duration
+    FROM assignments a
+    JOIN courses c ON a.course_id = c.id
+    JOIN instructors i ON a.instructor_id = i.id
+  `);
+
+  let ganttData = [];
+  let courseMap = {};
+
+  rows.forEach((row) => {
+    if (!courseMap[row.course_id]) {
+      ganttData.push({
+        id: row.course_id,
+        text: row.course_name,
+        start_date: row.start_date,
+        duration: row.duration,
+        open: true,
+      });
+      courseMap[row.course_id] = true;
     }
-    res.json(results);
+
+    ganttData.push({
+      id: `task_${row.instructor_id}`,
+      text: row.instructor_name,
+      start_date: row.start_date,
+      duration: row.duration,
+      parent: row.course_id,
+      open: true,
+    });
   });
+
+  return ganttData;
+};
+
+app.get("/gantt-data", async (req, res) => {
+  try {
+    const ganttData = await fetchGanttData();
+    res.json({ data: ganttData });
+  } catch (error) {
+    console.error("Error fetching Gantt data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  console.log(`Server is running on port ${PORT}`);app.listen(PORT, () => {
