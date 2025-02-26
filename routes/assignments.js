@@ -85,7 +85,7 @@ router.get("/", (req, res) => {
       return res.status(500).json({ error: "Database query failed", details: err });
     }
 
-    const courses = results.reduce((acc, row) => {
+    const assignments = results.reduce((acc, row) => {
       if (!acc[row.course_id]) {
         acc[row.course_id] = {
           id: row.course_id,
@@ -114,15 +114,15 @@ router.get("/", (req, res) => {
       return acc;
     }, {});
 
-    const response = Object.values(courses).map(course => ({
-      id: course.id,
-      name: course.name,
-      start_date: course.start_date,
-      end_date: course.end_date,
-      instructors: course.instructors,
+    const response = Object.values(assignments).map(assignment => ({
+      id: assignment.id,
+      name: assignment.name,
+      start_date: assignment.start_date,
+      end_date: assignment.end_date,
+      instructors: assignment.instructors,
     }));
 
-    res.json({ courses: response });
+    res.json({ assignments: response });
   });
 });
 
