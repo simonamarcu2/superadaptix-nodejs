@@ -7,7 +7,6 @@ router.use(cors());
 router.use(express.json());
 
 router.post("/", (req, res) => {
-  console.log("Received request body:", req.body);
 
   const { course_id, instructor_id, start_date, duration } = req.body;
 
@@ -22,7 +21,6 @@ router.post("/", (req, res) => {
 
   db.query(sql, [course_id, instructor_id, start_date, duration, end_date], (err, result) => {
     if (err) {
-      console.error("Error adding assignment:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
     res.status(201).json({ message: "Assignment created", assignmentId: result.insertId });
@@ -42,7 +40,6 @@ router.put("/:id", (req, res) => {
     [course_id, instructor_id, start_date, duration, end_date, assignmentId],
     (err, result) => {
       if (err) {
-        console.error("Error updating assignment:", err);
         return res
           .status(500)
           .json({ error: "Database query failed", details: err });
@@ -81,7 +78,6 @@ router.get("/", (req, res) => {
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("Error fetching assignments:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
 
@@ -132,7 +128,6 @@ router.delete("/:id", (req, res) => {
   const sql = `DELETE FROM assignments WHERE id = ?`;
   db.query(sql, [assignmentId], (err, result) => {
     if (err) {
-      console.error("Error deleting assignment:", err);
       return res
         .status(500)
         .json({ error: "Database query failed", details: err });

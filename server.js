@@ -9,9 +9,6 @@ const assignmentsRoutes = require("./routes/assignments");
 const app = express();
 
 if (!PORT || !DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
-  console.error(
-    "Missing required environment variables. Please check your .env file."
-  );
   process.exit(1);
 }
 
@@ -69,7 +66,6 @@ app.get("/gantt-data", async (req, res) => {
     const ganttData = await fetchGanttData();
     res.json({ data: ganttData });
   } catch (error) {
-    console.error("Error fetching Gantt data:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

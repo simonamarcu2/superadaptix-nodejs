@@ -11,7 +11,6 @@ router.post("/", (req, res) => {
   const sql = `INSERT INTO courses (name) VALUES (?)`;
   db.query(sql, [name], (err, result) => {
     if (err) {
-      console.error("Error adding course:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
     res.status(201).json({ message: "Course created", courseId: result.insertId });
@@ -22,7 +21,6 @@ router.get("/", (req, res) => {
   const sql = `SELECT * FROM courses`;
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("Error fetching courses:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
     res.json({ courses: results });
@@ -40,7 +38,6 @@ router.put("/:id", (req, res) => {
   const sql = `UPDATE courses SET name = ? WHERE id = ?`;
   db.query(sql, [name, courseId], (err, result) => {
     if (err) {
-      console.error("Error updating course:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
     if (result.affectedRows === 0) {
@@ -56,7 +53,6 @@ router.delete("/:id", (req, res) => {
   const checkSql = `SELECT * FROM assignments WHERE course_id = ?`;
   db.query(checkSql, [courseId], (err, results) => {
     if (err) {
-      console.error("Error checking dependencies:", err);
       return res.status(500).json({ error: "Database query failed", details: err });
     }
 
@@ -67,7 +63,6 @@ router.delete("/:id", (req, res) => {
     const deleteSql = `DELETE FROM courses WHERE id = ?`;
     db.query(deleteSql, [courseId], (err, result) => {
       if (err) {
-        console.error("Error deleting course:", err);
         return res.status(500).json({ error: "Database query failed", details: err });
       }
       if (result.affectedRows === 0) {
